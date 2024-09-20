@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>EvalAssist Chatbot</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <style>
+      #chatbox {
+        height: 500px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+      .user-message {
+        text-align: right;
+        color: blue;
+      }
+      .bot-message {
+        text-align: left;
+        color: green;
+      }
+      /* {{ edit: Added styles for user info display }} */
+      #user-info {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        text-align: right;
+      }
+      /* {{ edit: Added styles for conversation steps }} */
+      .step-info {
+        font-style: italic;
+        color: gray;
+        margin-top: -10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="user-info">
+      <span id="user-name"><!-- User Name --></span><br />
+      <span id="email"><!-- Email --></span><br />
+      <span id="phone"><!-- Phone --></span><br />
+      <span id="organization"><!-- Organizations --></span>
+    </div>
+    <div class="container mt-5">
+      <h2>EvalAssist Chatbot</h2>
+      <div id="chatbox">
+        <!-- Chat messages will appear here -->
+      </div>
+      <form id="chat-form">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            id="user-input"
+            placeholder="Ask a question..."
+            required />
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
+
+    <script>
+      // {{ edit: Populate user info from backend }}
+      const userName = "{{ user_name }}"; // Replace with actual user name from backend
+      const email = "{{ email }}"; // Replace with actual email from backend
+      const phone = "{{ phone }}"; // Replace with actual phone from backend
+      const organizations = "{{ organizations|join(', ') }}"; // Replace with actual organizations from backend
+
+      document.getElementById("user-name").innerText = `Name: ${userName}`;
+      document.getElementById("email").innerText = `Email: ${email}`;
+      document.getElementById("phone").innerText = `Phone: ${phone}`;
+      document.getElementById(
+        "organization"
+      ).innerText = `Organizations: ${organizations}`;
+
+      const form = document.getElementById("chat-form");
+      const chatbox = document.getElementById("chatbox");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const userInput = document.getElementById("user-input").value;
+        appendMessage(userInput, "user");
+        document.getElementById("user-input").value = "";
+
+        const response = await fetch("/chatbot/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_question: userInput,
+            chat_history: getChatHistory(),
+          }),
+        });
+
+        const data = await response.json();
+        appendMessage(data.response, "bot", data.step);
+      });
+
+      function appendMessage(message, sender, step = null) {
+        const messageElement = document.createElement("div");
+        messageElement.className =
+          sender === "user" ? "user-message" : "bot-message";
+        // {{ edit: Use innerHTML for better formatting with markdown }}
+        messageElement.innerHTML = marked.parse(message);
+
+        // {{ edit: Append step information if available }}
+        if (step) {
+          const stepInfo = document.createElement("div");
+          stepInfo.className = "step-info";
+          stepInfo.innerText = `Step: ${step}`;
+          messageElement.appendChild(stepInfo);
+        }
+
+        chatbox.appendChild(messageElement);
+        chatbox.scrollTop = chatbox.scrollHeight;
+      }
+
+      function getChatHistory() {
+        // Collect chat history from chatbox
+        const messages = chatbox.querySelectorAll(
+          "div.user-message, div.bot-message"
+        );
+        let history = [];
+        messages.forEach((msg) => {
+          const role = msg.classList.contains("user-message") ? "user" : "bot";
+          const content = msg.innerText;
+          const stepMatch = msg.querySelector(".step-info");
+          const step = stepMatch
+            ? stepMatch.innerText.replace("Step: ", "")
+            : null;
+          history.push({ role, content, step });
+        });
+        return history;
+      }
+    </script>
+    <!-- {{ edit: Include marked.js for markdown rendering }} -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </body>
+</html>

@@ -3,9 +3,13 @@ import streamlit as st
 import requests
 from chatbot import run_chatbot
 from dotenv import load_dotenv
+import logging
 
 # Load environment variables
 load_dotenv()
+
+# {{ edit: Set page config as the first Streamlit command }}
+st.set_page_config(page_title="EvalAssist - Your Real Estate Assistant by WAIV", page_icon="🏠", layout="wide")
 
 API_BASE_URL = os.getenv('VALTOOL_API_URL')
 if not API_BASE_URL:
@@ -43,8 +47,8 @@ def authenticate_user(email, password):
         st.error("An unexpected error occurred during authentication.")
         logging.error(f"Unexpected error: {e}")  # {{ edit: Log unexpected errors }}
         return None, None
-    
-    #if user asks any question which is not related to real estate or waivio, then return a message saying that sorry I am only authorised to answer question related to real estate.
+
+    # if user asks any question which is not related to real estate or waivio, then return a message saying that sorry I am only authorised to answer question related to real estate.
     def is_authorised_topic(user_question):
         if "real estate" in user_question.lower() or "waivio" in user_question.lower():
             return True
@@ -53,14 +57,14 @@ def authenticate_user(email, password):
 
 def main():
     st.title("EvalAssist - Your Real Estate Assistant by WAIV")
-
+    
     if not API_BASE_URL:
         st.error("API URL is not set. Please check your environment variables.")
         return
-
+    
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
-
+    
     if not st.session_state.authenticated:
         email = st.text_input("Email")
         password = st.text_input("Password", type="password")
@@ -89,7 +93,7 @@ def main():
             st.markdown(f"**Email:** {st.session_state.email}")             # {{ edit: Display Email }}
             st.markdown(f"**Phone:** {st.session_state.phone}")             # {{ edit: Display Phone }}
             st.markdown(f"**Organizations:** {', '.join(st.session_state.organizations)}")  # {{ edit: Display Organizations }} 
-
+        
         if st.button("Logout"):
             st.session_state.authenticated = False
             st.session_state.pop('auth_token', None)

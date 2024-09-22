@@ -1,0 +1,135 @@
+2024-09-22 16:19:29,529 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 18:53:27,235 - chatbot - ERROR - Error generating response: 'IntelligentChatbot' object has no attribute 'intent_keywords'
+Traceback (most recent call last):
+  File "/Users/rajesh/EVP/auth_test/chatbot.py", line 96, in generate_response
+    intents = self._extract_intents(user_question)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/chatbot.py", line 144, in _extract_intents
+    if token.lemma_ in self.intent_keywords:
+                       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IntelligentChatbot' object has no attribute 'intent_keywords'
+2024-09-22 18:53:28,261 - chatbot - ERROR - API error: 405 - Not Allowed
+2024-09-22 19:17:28,183 - chatbot - ERROR - Error generating response: Value after * must be an iterable, not NoneType
+Traceback (most recent call last):
+  File "/Users/rajesh/EVP/auth_test/chatbot.py", line 113, in generate_response
+    messages = self._build_messages(user_question, chat_history)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/chatbot.py", line 165, in _build_messages
+    messages = [
+               ^
+TypeError: Value after * must be an iterable, not NoneType
+2024-09-22 19:17:29,070 - chatbot - ERROR - API error: 405 - Not Allowed
+2024-09-22 19:25:00,302 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 19:25:23,373 - openai._base_client - INFO - Retrying request to /chat/completions in 0.939378 seconds
+2024-09-22 19:25:25,912 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 19:25:42,792 - openai._base_client - INFO - Retrying request to /chat/completions in 0.771902 seconds
+2024-09-22 19:25:44,857 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 19:26:02,796 - openai._base_client - INFO - Retrying request to /chat/completions in 0.987390 seconds
+2024-09-22 19:26:05,098 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 19:47:55,762 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 19:48:17,710 - openai._base_client - INFO - Retrying request to /chat/completions in 0.863766 seconds
+2024-09-22 19:48:20,541 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 19:48:44,547 - openai._base_client - INFO - Retrying request to /chat/completions in 0.861913 seconds
+2024-09-22 19:48:48,190 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 19:49:08,975 - openai._base_client - INFO - Retrying request to /chat/completions in 0.842408 seconds
+2024-09-22 19:49:12,157 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 19:50:00,347 - openai._base_client - INFO - Retrying request to /chat/completions in 0.913474 seconds
+2024-09-22 19:50:04,992 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 19:51:03,305 - openai._base_client - INFO - Retrying request to /chat/completions in 0.854404 seconds
+2024-09-22 19:51:09,963 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 20:24:15,468 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 20:24:41,682 - openai._base_client - INFO - Retrying request to /chat/completions in 0.999985 seconds
+2024-09-22 20:24:44,269 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 20:40:02,556 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 20:40:26,847 - openai._base_client - INFO - Retrying request to /chat/completions in 0.863130 seconds
+2024-09-22 20:40:29,335 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 20:42:54,040 - openai._base_client - INFO - Retrying request to /chat/completions in 0.846307 seconds
+2024-09-22 20:42:56,396 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 20:43:28,407 - openai._base_client - INFO - Retrying request to /chat/completions in 0.846776 seconds
+2024-09-22 20:43:30,842 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 21:10:28,931 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2024-09-22 21:10:28,935 - chatbot - ERROR - Error generating response: Error code: 400 - {'error': {'message': "Invalid type for 'messages': expected an array of objects, but got a string instead.", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'invalid_type'}}
+Traceback (most recent call last):
+  File "/Users/rajesh/EVP/auth_test/chatbot.py", line 156, in _generate_openai_response
+    response = await self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/resources/chat/completions.py", line 1412, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1821, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1515, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1616, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': "Invalid type for 'messages': expected an array of objects, but got a string instead.", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'invalid_type'}}
+2024-09-22 21:10:55,166 - openai._base_client - INFO - Retrying request to /chat/completions in 0.830716 seconds
+2024-09-22 21:10:56,430 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2024-09-22 21:10:56,431 - chatbot - ERROR - Error generating response: Error code: 400 - {'error': {'message': "Invalid type for 'messages': expected an array of objects, but got a string instead.", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'invalid_type'}}
+Traceback (most recent call last):
+  File "/Users/rajesh/EVP/auth_test/chatbot.py", line 156, in _generate_openai_response
+    response = await self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/resources/chat/completions.py", line 1412, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1821, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1515, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1578, in _request
+    return await self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1648, in _retry_request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1616, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': "Invalid type for 'messages': expected an array of objects, but got a string instead.", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'invalid_type'}}
+2024-09-22 21:41:03,077 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2024-09-22 21:41:03,083 - chatbot - ERROR - Error generating response: Error code: 400 - {'error': {'message': "Invalid type for 'messages': expected an array of objects, but got a string instead.", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'invalid_type'}}
+Traceback (most recent call last):
+  File "/Users/rajesh/EVP/auth_test/chatbot.py", line 156, in _generate_openai_response
+    response = await self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/resources/chat/completions.py", line 1412, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1821, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1515, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1616, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': "Invalid type for 'messages': expected an array of objects, but got a string instead.", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'invalid_type'}}
+2024-09-22 21:45:11,343 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2024-09-22 21:45:11,345 - chatbot - ERROR - Error generating response: Error code: 400 - {'error': {'message': "Invalid type for 'messages': expected an array of objects, but got a string instead.", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'invalid_type'}}
+Traceback (most recent call last):
+  File "/Users/rajesh/EVP/auth_test/chatbot.py", line 156, in _generate_openai_response
+    response = await self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/resources/chat/completions.py", line 1412, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1821, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1515, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajesh/EVP/auth_test/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1616, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': "Invalid type for 'messages': expected an array of objects, but got a string instead.", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'invalid_type'}}
+2024-09-22 21:49:02,135 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 21:49:17,352 - openai._base_client - INFO - Retrying request to /chat/completions in 0.926816 seconds
+2024-09-22 21:49:19,629 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 21:56:38,463 - openai._base_client - INFO - Retrying request to /chat/completions in 0.861170 seconds
+2024-09-22 21:56:43,688 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-22 21:57:59,764 - openai._base_client - INFO - Retrying request to /chat/completions in 0.944468 seconds
+2024-09-22 21:58:01,874 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"

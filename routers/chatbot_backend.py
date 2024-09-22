@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import qa_data
 import difflib
 import logging
-#from .chatbot_backend import handle_user_query_backend
+from chatbot import IntelligentChatbot
 import asyncio
 import re
 import traceback  # {{ edit: Import traceback for detailed error logging }}
@@ -36,13 +36,15 @@ def find_best_match(user_question, qa_dict):
     user_question_normalized = user_question.strip().lower()
 
     # Exact match (case-insensitive)
-    if user_question_normalized in qa_dict:
-        return qa_dict[user_question_normalized], 'exact'
+    if user_question_normalized in (q.lower() for q in questions):
+        # Retrieve the original case question
+        original_question = next(q for q in questions if q.lower() == user_question_normalized)
+        return qa_dict[original_question], 'exact'
 
-    # Partial match using improved fuzzy matching
-    close_matches = difflib.get_close_matches(user_question_normalized, questions, n=1, cutoff=0.7)
-    if close_matches:
-        matched_question = close_matches[0]
+    # Partial match using difflib for fuzzy matching
+    matches = difflib.get_close_matches(user_question_normalized, (q.lower() for q in questions), n=1, cutoff=0.6)
+    if matches:
+        matched_question = next(q for q in questions if q.lower() == matches[0])
         return qa_dict[matched_question], 'partial'
 
     return None, 'no_match'
@@ -69,18 +71,28 @@ def get_next_step(current_step, user_question):
     }
     return step_mapping.get(current_step, 'conclusion')
 
-def generate_intelligent_response(user_question):
+import asyncio  # Ensure asyncio is imported for asynchronous operations
+
+# Remove or comment out the synchronous OpenAI import
+# from openai import OpenAI
+
+# Add import for AsyncOpenAI
+from openai import AsyncOpenAI
+
+
+
+# Initialize a single instance of IntelligentChatbot to be reused
+chatbot_instance = IntelligentChatbot()
+
+async def generate_intelligent_response(user_question):
     """
-    Generates an intelligent response using OpenAI's GPT model.
+    Generates an intelligent response using OpenAI's GPT model asynchronously.
     """
     try:
-        from openai import OpenAI
-        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-        
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
+        response = await chatbot_instance.client.chat.completions.create(
+            model=chatbot_instance.model,
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "You are EvalAssist, an expert assistant for WAIV, specializing in the US property market."},
                 {"role": "user", "content": user_question}
             ]
         )
@@ -93,15 +105,21 @@ def generate_intelligent_response(user_question):
 def handle_user_query_backend(user_question, chat_history):
     try:
         answer, match_type = find_best_match(user_question, qa_data.qa_dict)
-        if match_type in ['exact', 'partial']:
+        if match_type == 'exact':
             next_step = get_next_step(chat_history[-1]['step'] if chat_history else 'greeting', user_question)
             return answer, next_step
+        elif match_type == 'partial':
+            dataset_answer = answer
+            intelligent_response = asyncio.run(generate_intelligent_response(user_question))
+            combined_response = f"{dataset_answer}\n\n{intelligent_response}"
+            next_step = get_next_step(chat_history[-1]['step'] if chat_history else 'greeting', user_question)
+            return combined_response, next_step  # {{ edit: Combine dataset and intelligent responses }}
         elif is_us_property_related(user_question):
-            intelligent_response = generate_intelligent_response(user_question)
+            intelligent_response = asyncio.run(generate_intelligent_response(user_question))
             next_step = get_next_step(chat_history[-1]['step'] if chat_history else 'greeting', user_question)
             return intelligent_response, next_step
         else:
-            return "I'm sorry, I can only assist with questions related to the US property market.", 'end'
+            return "I'm sorry, I can only assist with questions related to the US property market and WAIV services.", 'end'
     except Exception as e:
         logger.error(f"Error in handle_user_query_backend: {e}")
         logger.debug(traceback.format_exc())  # {{ edit: Log full traceback }}
